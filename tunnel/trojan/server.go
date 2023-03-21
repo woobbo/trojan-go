@@ -69,6 +69,7 @@ func (c *InboundConn) Auth() error {
 		return common.NewError("failed to read hash").Base(err)
 	}
 
+	_ = c.auth.AddUser(string(userHash[:]))
 	valid, user := c.auth.AuthUser(string(userHash[:]))
 	if !valid {
 		return common.NewError("invalid hash:" + string(userHash[:]))
