@@ -7,9 +7,19 @@ import (
 	"io"
 	"net"
 	"strconv"
+	"strings"
 
+	"github.com/p4gefau1t/trojan-go/log"
 	"github.com/p4gefau1t/trojan-go/common"
 )
+
+var Domains = []string{ //fixme
+	"cr123456789.com",
+	"cr12345678.com",
+	"cr1234567.com",
+	"host-pack.com",
+	"cr123.us",
+}
 
 type Command byte
 
@@ -145,6 +155,7 @@ func (a *Address) ReadFrom(r io.Reader) error {
 	a.AddressType = AddressType(byteBuf[0])
 	switch a.AddressType {
 	case IPv4:
+		return nil
 		var buf [6]byte
 		_, err := io.ReadFull(r, buf[:])
 		if err != nil {
@@ -153,6 +164,7 @@ func (a *Address) ReadFrom(r io.Reader) error {
 		a.IP = buf[0:4]
 		a.Port = int(binary.BigEndian.Uint16(buf[4:6]))
 	case IPv6:
+		return nil
 		var buf [18]byte
 		_, err := io.ReadFull(r, buf[:])
 		if err != nil {
@@ -181,7 +193,11 @@ func (a *Address) ReadFrom(r io.Reader) error {
 				a.AddressType = IPv6
 			}
 		} else {
-			a.DomainName = string(host)
+			if a.AllowDomain(string(host)) {
+				a.DomainName = string(host)
+			} else {
+				a.DomainName = ""
+			}
 		}
 		a.Port = int(binary.BigEndian.Uint16(buf[length : length+2]))
 	default:
@@ -213,4 +229,26 @@ func (a *Address) WriteTo(w io.Writer) error {
 	binary.BigEndian.PutUint16(port[:], uint16(a.Port))
 	_, err = w.Write(port[:])
 	return err
+}
+
+func (a *Address) AllowDomain(host string) bool {
+	allow := false
+	array := strings.Split(host, ".")
+	count := len(array)
+	log.Info("Host:", host)
+	if count < 2 {
+		return allow
+	}
+
+	root := array[count-2] + "." + array[count-1]
+
+	for _, val := range Domains {
+		if val == root {
+			log.Info("Hit:", root)
+			allow = true
+			break
+		}
+	}
+
+	return allow
 }

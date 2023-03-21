@@ -1,0 +1,17 @@
+{
+    "run_type": "server",
+    "local_addr": "0.0.0.0",
+    "local_port": 3389,
+    "remote_addr": "www.taobao.com",
+    "remote_port": 80,
+    "password": [
+	    "7f901e51-fbe9-4c5c-b903-e8e839ed80b4"
+    ],
+    "ssl": {
+	"cert":"/root/.cert/server.crt",
+	"key":"/root/.cert/server.key",
+	"sni":"home.crnode.one"
+    }
+}
+
+
