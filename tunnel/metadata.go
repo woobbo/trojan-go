@@ -18,6 +18,7 @@ var Domains = []string{ //fixme
 	"cr12345678.com",
 	"cr1234567.com",
 	"host-pack.com",
+	"cr-001.com",
 	"cr123.us",
 }
 
