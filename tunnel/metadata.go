@@ -20,6 +20,10 @@ var Domains = []string{ //fixme
 	"host-pack.com",
 	"cr-001.com",
 	"cr123.us",
+        "cloudflare.com",
+        "crsub001.com",
+        "crapi.us",
+        "crsub.us"
 }
 
 type Command byte
