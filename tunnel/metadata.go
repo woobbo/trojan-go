@@ -13,7 +13,7 @@ import (
 	"github.com/p4gefau1t/trojan-go/common"
 )
 
-var Domains = []string{ //fixme
+var Domains = []string{
 	"cr123456789.com",
 	"cr12345678.com",
 	"cr1234567.com",
@@ -22,8 +22,9 @@ var Domains = []string{ //fixme
 	"cr123.us",
         "cloudflare.com",
         "crsub001.com",
+	"crstatic.us",
         "crapi.us",
-        "crsub.us"
+        "crsub.us",
 }
 
 type Command byte
